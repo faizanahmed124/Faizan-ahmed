@@ -71,7 +71,6 @@ const Span = styled.div`
 const Skill = styled.div`
   font-size: 15px;
   font-weight: 400;
-  color: ${({ theme }) => theme.text_primary + 99};
   @media only screen and (max-width: 768px) {
     font-size: 12px;
   }
@@ -101,18 +100,18 @@ const ExperienceCard = ({ experience }) => {
         gap: "12px",
         background: "#1d1836",
         color: "#fff",
-        boxShadow: "rgba(23, 92, 230, 0.15) 0px 4px 24px",
-        backgroundColor: "rgba(17, 25, 40, 0.83)",
-        border: "1px solid rgba(255, 255, 255, 0.125)",
+        boxShadow: "rgba(40, 240, 240, 0.15) 0px 4px 24px",
+        backgroundColor: "rgba(50, 50, 63, 0.83)",
+        border: "1px solid rgba(255, 255, 255, 0.13)",
         borderRadius: "6px",
       }}
       contentArrowStyle={{
-        borderRight: "7px solid  rgba(255, 255, 255, 0.3)",
+        borderRight: "7px solid  rgba(228, 13, 13, 0.3)",
       }}
       date={experience?.date}
     >
       <Top>
-        <Image src={experience?.img} />
+       {/* //Image src={experience?.img} />// */}
         <Body>
           <Role>{experience?.role}</Role>
           <Company>{experience?.company}</Company>

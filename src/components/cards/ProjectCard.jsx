@@ -58,7 +58,7 @@ const Title = styled.div`
 
 const Description = styled.div`
   font-weight: 400;
-  color: ${({ theme }) => theme.text_secondary + 99};
+  color: #fff;
   overflow: hidden;
   margin-top: 8px;
   display: -webkit-box;
@@ -91,8 +91,8 @@ const ProjectCard = ({ project }) => {
       </Details>
       <Members>
       </Members>
-      <Button href={project.linkedin} target="_blank">
-       Learn More 
+      <Button href={project.Link} target="_blank">
+    Open Link
       </Button>
     </Card>
   );

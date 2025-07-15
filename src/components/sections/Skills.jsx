@@ -92,7 +92,7 @@ const SkillList = styled.div`
 const SkillItem = styled.div`
   font-size: 16px;
   font-weight: 400;
-  color: ${({ theme }) => theme.text_primary + 80};
+  color: ${({ theme }) => theme.text_primary + 80 };
   border: 1px solid ${({ theme }) => theme.text_primary + 80};
   border-radius: 12px;
   padding: 12px 16px;
@@ -126,26 +126,26 @@ const Skills = () => {
           }}
         >
           Here are some of my skills on which I have been working on for the
-          past 3 years.
+          past 2 years.
         </Desc>
 
-        <SkillsContainer>
-          {skills.map((skill, index) => (
-            <Tilt>
-              <Skill key={`skill-${index}`}>
-                <SkillTitle>{skill.title}</SkillTitle>
-                <SkillList>
-                  {skill.skills.map((item, index_x) => (
-                    <SkillItem key={`skill-x-${index_x}`}>
-                      <SkillImage src={item.image} />
-                      {item.name}
-                    </SkillItem>
-                  ))}
-                </SkillList>
-              </Skill>
-            </Tilt>
+<SkillsContainer>
+  {skills.map((skill, index) => (
+    <Tilt key={`tilt-${index}`}>
+      <Skill>
+        <SkillTitle>{skill.title}</SkillTitle>
+        <SkillList>
+          {skill.skills.map((item, index_x) => (
+            <SkillItem key={`item-${index}-${index_x}`}>
+              {item.icon && <SkillImage src={item.icon} alt={item.name} />}
+              {item.name}
+            </SkillItem>
           ))}
-        </SkillsContainer>
+        </SkillList>
+      </Skill>
+    </Tilt>
+  ))}
+</SkillsContainer>
       </Wrapper>
     </Container>
   );

@@ -5,10 +5,10 @@ import * as random from "maath/random/dist/maath-random.esm";
 import styled from "styled-components";
 
 const StyledCanvasWrapper = styled.div`
-  width: 100%;
-  height: auto;
+  width: 50%;
+  height: 50;
   position: absolute;
-  inset: 0;
+  inset: 2px;
 `;
 
 const Stars = (props) => {

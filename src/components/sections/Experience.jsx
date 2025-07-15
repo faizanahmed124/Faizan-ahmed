@@ -48,6 +48,15 @@ const Desc = styled.div`
     font-size: 16px;
   }
 `;
+const LastLine = styled.div`
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+ font-size: 18px;
+  
+`;
 
 const Experience = () => {
   return (
@@ -72,6 +81,9 @@ const Experience = () => {
           ))}
         </VerticalTimeline>
       </Wrapper>
+    <LastLine>
+  Also collaborated with multiple startups and personal clients on diverse web & Mob App development projects
+</LastLine>
     </Container>
   );
 };

@@ -4,7 +4,7 @@ const HeroBgAnimation = () => (
   <Div>
     <svg
       className="BgAnimation__svg"
-      viewBox="0 0 602 602"
+      viewBox="0 0 702  702"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -96,7 +96,7 @@ const HeroBgAnimation = () => (
         transform="translate(-476.525 -363.313) rotate(-45 476.171 362.952)"
         stroke="url(#paint4_linear)"
       >
-        <animateMotion dur="10s" repeatCount="indefinite" rotate="auto">
+        <animateMotion dur="0s" repeatCount="indefinite" rotate="auto">
           <mpath xlinkHref="#path_0" />
         </animateMotion>
       </path>
