@@ -5,6 +5,7 @@ import {
   FacebookRounded,
   Instagram,
   LinkedIn,
+  Fiverr
   
 } from "@mui/icons-material";
 
@@ -102,6 +103,7 @@ const Footer = () => {
           <SocialMediaIcon href={Bio.insta} target="display">
             <Instagram />
           </SocialMediaIcon>
+          
         </SocialMediaIcons>
         <Copyright>&copy; 2024 Faizan Ahmed. All rights reserved.</Copyright>
       </FooterWrapper>

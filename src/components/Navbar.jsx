@@ -31,9 +31,9 @@ const NavLogo = styled(LinkR)`
   width: 80%;
   padding: 0 6px;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 20px;
   text-decoration: none;
-  color: inherit;
+
 `;
 
 const NavItems = styled.ul`
