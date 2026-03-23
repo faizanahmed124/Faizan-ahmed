@@ -303,6 +303,28 @@ export const education = [
 ];
 
 export const projects = [
+
+  {
+    id: 12,
+    title: "Web Scraper ",
+    date: "",
+    description:
+      " Automated Data Extraction & Publishing System Designed a scalable data pipeline that extracts data from multiple external APIs, normalizes and stores it in a PostgreSQL database, and uses a Django-based backend to dynamically generate content pages. Integrated the system with WordPress for automated publishing, ensuring efficient content management and minimal manual intervention..",
+    image:
+      "https://repository-images.githubusercontent.com/333483116/710ad33c-b530-4002-9f3e-1417d6e61d04",
+    tags: [
+      "Python",
+      "FLask ",
+    "Fast API",
+      "Tailwind Css",
+      "SQL",
+      
+    ],
+    category: "web app",
+    Link: "https://data-scraper-software.vercel.app/",
+
+  },
+
   {
     id: 11,
     title: "Monmatics ",
