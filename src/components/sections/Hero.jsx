@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Bio } from "../../data/constants";
 import Typewriter from "typewriter-effect";
 import HeroImg from "../../images/HeroImage.jpg";
-import HeroBgAnimation from "../HeroBgAnimation";
 import { Tilt } from "react-tilt";
 import { motion } from "framer-motion";
 import {
@@ -11,7 +10,6 @@ import {
   headContentAnimation,
   headTextAnimation,
 } from "../../utils/motion";
-import StarCanvas from "../canvas/Stars";
 
 const HeroContainer = styled.div`
   display: flex;
@@ -30,6 +28,7 @@ const HeroContainer = styled.div`
 
   clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 95%, 0 100%);
 `;
+
 const HeroInnerContainer = styled.div`
   position: relative;
   display: flex;
@@ -42,6 +41,7 @@ const HeroInnerContainer = styled.div`
     flex-direction: column;
   }
 `;
+
 const HeroLeftContainer = styled.div`
   width: 100%;
   order: 1;
@@ -54,6 +54,7 @@ const HeroLeftContainer = styled.div`
     align-items: center;
   }
 `;
+
 const HeroRightContainer = styled.div`
   width: 100%;
   order: 2;
@@ -64,7 +65,7 @@ const HeroRightContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-contents: center;
+    justify-content: center;
     margin-bottom: 80px;
   }
 
@@ -81,9 +82,6 @@ const Title = styled.div`
 
   @media (max-width: 960px) {
     text-align: center;
-  }
-
-  @media (max-width: 960px) {
     font-size: 40px;
     line-height: 48px;
     margin-bottom: 8px;
@@ -100,9 +98,6 @@ const TextLoop = styled.div`
 
   @media (max-width: 960px) {
     text-align: center;
-  }
-
-  @media (max-width: 960px) {
     font-size: 22px;
     line-height: 48px;
     margin-bottom: 16px;
@@ -122,61 +117,39 @@ const SubTitle = styled.div`
 
   @media (max-width: 960px) {
     text-align: center;
-  }
-
-  @media (max-width: 960px) {
     font-size: 16px;
     line-height: 32px;
   }
 `;
 
-const Img = styled.img`
-  border-radius: 60%;
-  width: 100%;
-  height: 100%;
-  max-width: 400px;
-  max-height: 400px;
-  b ;
+/* ── White circular border wrapper ── */
+const ImgWrapper = styled.div`
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  padding: 5px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.45);
 
   @media (max-width: 640px) {
-    max-width: 280px;
-    max-height: 280px;
+    width: 280px;
+    height: 280px;
   }
 `;
 
-const HeroBg = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: end;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+const Img = styled.img`
+  border-radius: 50%;
   width: 100%;
   height: 100%;
-  max-width: 1360px;
-  overflow: hidden;
-  padding: 0 30px;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-
-  @media (max-width: 960px) {
-    justify-content: center;
-    padding: 0 0px;
-  }
+  object-fit: cover;
 `;
 
 const Hero = () => {
   return (
     <div id="About">
       <HeroContainer>
-        <HeroBg>
-          <StarCanvas />
-          <HeroBgAnimation />
-        </HeroBg>
-
         <motion.div {...headContainerAnimation}>
           <HeroInnerContainer>
             <HeroLeftContainer>
@@ -201,13 +174,14 @@ const Hero = () => {
               <motion.div {...headContentAnimation}>
                 <SubTitle>{Bio.description}</SubTitle>
               </motion.div>
-
-             
             </HeroLeftContainer>
+
             <HeroRightContainer>
               <motion.div {...headContentAnimation}>
                 <Tilt>
-                  <Img src={HeroImg} alt="Faizan Ahmed" className="" />
+                  <ImgWrapper>
+                    <Img src={HeroImg} alt="Faizan Ahmed" />
+                  </ImgWrapper>
                 </Tilt>
               </motion.div>
             </HeroRightContainer>

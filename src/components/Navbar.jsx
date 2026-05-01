@@ -12,7 +12,7 @@ const Nav = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 10;
   color: white;
