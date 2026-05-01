@@ -1,30 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 
-/*
-  ╔══════════════════════════════════════════════════════════╗
-  ║  Place ONCE at the root — covers the entire website      ║
-  ║                                                          ║
-  ║  function App() {                                        ║
-  ║    return (                                              ║
-  ║      <>                                                  ║
-  ║        <CircuitCanvas />       ← fixed bg, z-index 0    ║
-  ║        <div style={{                                     ║
-  ║          position: 'relative', zIndex: 1                 ║
-  ║        }}>                                               ║
-  ║          <Navbar />                                      ║
-  ║          <Hero />                                        ║
-  ║          <Skills />                                      ║
-  ║          <Projects />                                    ║
-  ║          <Experience />                                  ║
-  ║          <Education />                                   ║
-  ║          <Footer />                                      ║
-  ║        </div>                                            ║
-  ║      </>                                                 ║
-  ║    );                                                    ║
-  ║  }                                                       ║
-  ╚══════════════════════════════════════════════════════════╝
-*/
-
 const CircuitCanvas = () => {
   const canvasRef = useRef(null);
   const rafRef    = useRef(null);
@@ -36,46 +11,63 @@ const CircuitCanvas = () => {
     const ctx = canvas.getContext('2d');
     let W, H;
 
-    const NODE_COUNT   = 200;
-    const CONNECT_DIST = 150;
+    // ── Responsive config ────────────────────────────────────────
+    const isMobile  = () => window.innerWidth <= 768;
+    const isTablet  = () => window.innerWidth > 768 && window.innerWidth <= 1024;
+
+    const getConfig = () => {
+      if (isMobile())  return { NODE_COUNT: 40,  CONNECT_DIST: 90  };
+      if (isTablet())  return { NODE_COUNT: 70,  CONNECT_DIST: 120 };
+      return               { NODE_COUNT: 130, CONNECT_DIST: 150 };
+    };
+    // ─────────────────────────────────────────────────────────────
+
     const MOUSE_DIST   = 20;
     const MOUSE_FORCE  = 0.015;
     const RETURN_FORCE = 0.010;
     const FRICTION     = 0.37;
-
-    const resize = () => {
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Track mouse globally so every section responds
-    const onMouseMove  = (e) => { mouseRef.current = { x: e.clientX,              y: e.clientY };              };
-    const onTouchMove  = (e) => { if (e.touches[0]) mouseRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }; };
-    const onMouseLeave = ()  => { mouseRef.current = { x: -999, y: -999 };        };
-
-    window.addEventListener('mousemove',  onMouseMove);
-    window.addEventListener('touchmove',  onTouchMove,  { passive: true });
-    window.addEventListener('mouseleave', onMouseLeave);
 
     const COLORS = [
       '#6B46C1', '#7C3AED', '#5B21B6', '#4B3F72',
       '#888899', '#6B7280', '#9CA3AF', '#a78bfa',
     ];
 
-    const nodes = Array.from({ length: NODE_COUNT }, () => {
-      const ox = Math.random() * window.innerWidth;
-      const oy = Math.random() * window.innerHeight;
-      return {
-        ox, oy, x: ox, y: oy,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        r:   Math.random() * 1.8 + 0.7,
-        col: COLORS[Math.floor(Math.random() * COLORS.length)],
-        alpha: Math.random() * 0.45 + 0.35,
-      };
-    });
+    let nodes = [];
+
+    const buildNodes = () => {
+      const { NODE_COUNT } = getConfig();
+      const mobile = isMobile();
+      nodes = Array.from({ length: NODE_COUNT }, () => {
+        const ox = Math.random() * window.innerWidth;
+        const oy = Math.random() * window.innerHeight;
+        return {
+          ox, oy, x: ox, y: oy,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          r:   Math.random() * (mobile ? 0.8 : 1.8) + 0.4,
+          col: COLORS[Math.floor(Math.random() * COLORS.length)],
+          alpha: Math.random() * 0.45 + 0.35,
+        };
+      });
+    };
+
+    const resize = () => {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      buildNodes();
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const onMouseMove  = (e) => { mouseRef.current = { x: e.clientX, y: e.clientY }; };
+    const onTouchMove  = (e) => {
+      if (e.touches[0]) mouseRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    };
+    const onMouseLeave = () => { mouseRef.current = { x: -999, y: -999 }; };
+
+    window.addEventListener('mousemove',  onMouseMove);
+    window.addEventListener('touchmove',  onTouchMove, { passive: true });
+    window.addEventListener('mouseleave', onMouseLeave);
 
     function hexRGB(hex) {
       return [
@@ -91,6 +83,8 @@ const CircuitCanvas = () => {
       const dt = Math.min((ts - t0) / 16.67, 2.5);
       t0 = ts;
       const { x: mx, y: my } = mouseRef.current;
+      const { CONNECT_DIST }  = getConfig();
+      const mobile = isMobile();
 
       ctx.fillStyle = 'rgba(8, 6, 18, 0.20)';
       ctx.fillRect(0, 0, W, H);
@@ -122,17 +116,17 @@ const CircuitCanvas = () => {
           const d  = Math.sqrt(dx * dx + dy * dy);
           if (d >= CONNECT_DIST) continue;
 
-          const baseAlpha = (1 - d / CONNECT_DIST) * 0.38;
+          const baseAlpha = (1 - d / CONNECT_DIST) * (mobile ? 0.18 : 0.38);
           const midX = (a.x + b.x) * 0.5, midY = (a.y + b.y) * 0.5;
           const md   = Math.sqrt((midX - mx) ** 2 + (midY - my) ** 2);
           const boost = md < MOUSE_DIST ? (1 - md / MOUSE_DIST) * 0.75 : 0;
 
           if (boost > 0.1) {
             ctx.strokeStyle = `rgba(140,80,240,${Math.min(baseAlpha + boost * 0.6, 0.88)})`;
-            ctx.lineWidth   = 0.7 + boost * 1.4;
+            ctx.lineWidth   = 0.5 + boost;
           } else {
             ctx.strokeStyle = `rgba(88,80,120,${baseAlpha})`;
-            ctx.lineWidth   = 0.5;
+            ctx.lineWidth   = mobile ? 0.25 : 0.5;
           }
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
@@ -148,10 +142,10 @@ const CircuitCanvas = () => {
         const boost = d < MOUSE_DIST ? 1 - d / MOUSE_DIST : 0;
         const [r, g, b] = hexRGB(n.col);
 
-        if (boost > 0.18) {
-          const glowR = n.r * 5 + boost * 10;
+        if (!mobile && boost > 0.18) {
+          const glowR = n.r * 4 + boost * 7;
           const grd   = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowR);
-          grd.addColorStop(0, `rgba(120,55,220,${boost * 0.38})`);
+          grd.addColorStop(0, `rgba(120,55,220,${boost * 0.35})`);
           grd.addColorStop(1, `rgba(120,55,220,0)`);
           ctx.fillStyle = grd;
           ctx.beginPath();
@@ -163,12 +157,12 @@ const CircuitCanvas = () => {
           ? `rgba(180,130,255,${Math.min(n.alpha + boost * 0.5, 0.95)})`
           : `rgba(${r},${g},${b},${n.alpha})`;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r + boost * 1.8, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, n.r + (mobile ? 0 : boost * 1.5), 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Cursor ring
-      if (mx > 0 && my > 0) {
+      // Cursor ring — desktop only
+      if (!mobile && mx > 0 && my > 0) {
         const pulse = 0.35 + 0.22 * Math.sin(ts * 0.004);
         ctx.beginPath();
         ctx.arc(mx, my, 20, 0, Math.PI * 2);
@@ -201,13 +195,13 @@ const CircuitCanvas = () => {
     <canvas
       ref={canvasRef}
       style={{
-        position:      'fixed',   // stays behind entire site while scrolling
+        position:      'fixed',
         top:           0,
         left:          0,
         width:         '100vw',
         height:        '100vh',
-        zIndex:        0,         // behind all content
-        pointerEvents: 'none',    // clicks pass through to your sections
+        zIndex:        0,
+        pointerEvents: 'none',
         display:       'block',
       }}
     />
