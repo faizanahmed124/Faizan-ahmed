@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Bio } from "../../data/constants";
 import Typewriter from "typewriter-effect";
 import HeroImg from "../../images/HeroImage.jpg";
@@ -10,21 +10,32 @@ import {
   headContentAnimation,
   headTextAnimation,
 } from "../../utils/motion";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import FacebookIcon from "@mui/icons-material/Facebook";
 
+// ========== ANIMATIONS ==========
+const glow = keyframes`
+  0%, 100% { box-shadow: 0 0 18px rgba(133, 76, 230, 0.4); }
+  50%       { box-shadow: 0 0 32px rgba(133, 76, 230, 0.8); }
+`;
+
+const fadeUp = keyframes`
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+`;
+
+// ========== STYLED COMPONENTS ==========
 const HeroContainer = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
-  padding: 80px 30px;
+  padding: 90px 30px 70px;
   z-index: 1;
 
-  @media (max-width: 960px) {
-    padding: 66px 16px;
-  }
-
-  @media (max-width: 640px) {
-    padding: 32px 16px;
-  }
+  @media (max-width: 960px) { padding: 66px 16px 50px; }
+  @media (max-width: 640px) { padding: 40px 16px 32px; }
 
   clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 95%, 0 100%);
 `;
@@ -36,22 +47,25 @@ const HeroInnerContainer = styled.div`
   align-items: center;
   width: 100%;
   max-width: 1100px;
+  gap: 40px;
 
   @media (max-width: 960px) {
     flex-direction: column;
+    gap: 32px;
   }
 `;
 
 const HeroLeftContainer = styled.div`
   width: 100%;
   order: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
   @media (max-width: 960px) {
     order: 2;
-    margin-bottom: 30px;
-    display: flex;
-    gap: 6px;
-    flex-direction: column;
     align-items: center;
+    text-align: center;
   }
 `;
 
@@ -59,48 +73,45 @@ const HeroRightContainer = styled.div`
   width: 100%;
   order: 2;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
+
   @media (max-width: 960px) {
     order: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin-bottom: 80px;
-  }
-
-  @media (max-width: 640px) {
-    margin-bottom: 30px;
   }
 `;
 
-const Title = styled.div`
-  font-weight: 700;
-  font-size: 50px;
-  color: ${({ theme }) => theme.text_primary};
-  line-height: 68px;
+// ── Greeting ──
+const Greeting = styled.div`
+  font-size: 18px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.primary};
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: ${fadeUp} 0.6s ease forwards;
+`;
 
-  @media (max-width: 960px) {
-    text-align: center;
-    font-size: 40px;
-    line-height: 48px;
-    margin-bottom: 8px;
-  }
+const Title = styled.div`
+  font-weight: 800;
+  font-size: 52px;
+  color: ${({ theme }) => theme.text_primary};
+  line-height: 1.15;
+
+  @media (max-width: 960px) { font-size: 38px; }
+  @media (max-width: 640px) { font-size: 30px; }
 `;
 
 const TextLoop = styled.div`
   font-weight: 600;
-  font-size: 32px;
+  font-size: 28px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  align-items: center;
   color: ${({ theme }) => theme.text_primary};
-  line-height: 68px;
 
   @media (max-width: 960px) {
-    text-align: center;
-    font-size: 22px;
-    line-height: 48px;
-    margin-bottom: 16px;
+    font-size: 20px;
+    justify-content: center;
   }
 `;
 
@@ -110,32 +121,113 @@ const Span = styled.div`
 `;
 
 const SubTitle = styled.div`
-  font-size: 20px;
-  line-height: 32px;
-  margin-bottom: 42px;
-  color: ${({ theme }) => theme.text_primary + 95};
+  font-size: 16px;
+  line-height: 1.75;
+  color: ${({ theme }) => theme.text_primary + "bb"};
+  max-width: 520px;
+  margin-top: 4px;
 
   @media (max-width: 960px) {
+    font-size: 14px;
     text-align: center;
-    font-size: 16px;
-    line-height: 32px;
   }
 `;
 
-/* ── White circular border wrapper ── */
-const ImgWrapper = styled.div`
-  width: 400px;
-  height: 400px;
+// ── Buttons Row ──
+const ButtonRow = styled.div`
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+
+  @media (max-width: 960px) { justify-content: center; }
+`;
+
+const PrimaryBtn = styled.a`
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #854ce6, #a78bfa);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  animation: ${glow} 3s ease-in-out infinite;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(133, 76, 230, 0.5);
+  }
+`;
+
+const OutlineBtn = styled.a`
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #854ce6;
+  background: transparent;
+  border: 2px solid #854ce6;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(133, 76, 230, 0.1);
+    transform: translateY(-3px);
+  }
+`;
+
+// ── Social Icons ──
+const SocialRow = styled.div`
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+
+  @media (max-width: 960px) { justify-content: center; }
+`;
+
+const SocialIcon = styled.a`
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(133, 76, 230, 0.1);
+  border: 1px solid rgba(133, 76, 230, 0.3);
+  color: #854ce6;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  svg { font-size: 18px; }
+
+  &:hover {
+    background: #854ce6;
+    color: #fff;
+    border-color: #854ce6;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(133, 76, 230, 0.4);
+  }
+`;
+
+// ── Image ──
+const ImgWrapper = styled.div`
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  border: 3px solid rgba(133, 76, 230, 0.6);
   padding: 5px;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 8px 32px rgba(0, 0, 0, 0.45);
+    0 0 0 1px rgba(133, 76, 230, 0.2),
+    0 8px 40px rgba(133, 76, 230, 0.3);
+  animation: ${glow} 3s ease-in-out infinite;
 
   @media (max-width: 640px) {
-    width: 280px;
-    height: 280px;
+    width: 260px;
+    height: 260px;
   }
 `;
 
@@ -146,17 +238,19 @@ const Img = styled.img`
   object-fit: cover;
 `;
 
+// ========== COMPONENT ==========
 const Hero = () => {
   return (
     <div id="About">
       <HeroContainer>
         <motion.div {...headContainerAnimation}>
           <HeroInnerContainer>
+
+            {/* LEFT */}
             <HeroLeftContainer>
               <motion.div {...headTextAnimation}>
-                <Title>
-                  Hello, I am <br /> {Bio.name}
-                </Title>
+                <Greeting>👋 Hello, World!</Greeting>
+                <Title>I am {Bio.name}</Title>
                 <TextLoop>
                   I am a
                   <Span>
@@ -173,9 +267,42 @@ const Hero = () => {
 
               <motion.div {...headContentAnimation}>
                 <SubTitle>{Bio.description}</SubTitle>
+
+                <ButtonRow>
+                  <PrimaryBtn
+                    href={Bio.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View GitHub
+                  </PrimaryBtn>
+                  <OutlineBtn
+                    href={Bio.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    LinkedIn
+                  </OutlineBtn>
+                </ButtonRow>
+
+                <SocialRow>
+                  <SocialIcon href={Bio.github} target="_blank">
+                    <GitHubIcon />
+                  </SocialIcon>
+                  <SocialIcon href={Bio.linkedin} target="_blank">
+                    <LinkedInIcon />
+                  </SocialIcon>
+                  <SocialIcon href={Bio.insta} target="_blank">
+                    <InstagramIcon />
+                  </SocialIcon>
+                  <SocialIcon href={Bio.facebook} target="_blank">
+                    <FacebookIcon />
+                  </SocialIcon>
+                </SocialRow>
               </motion.div>
             </HeroLeftContainer>
 
+            {/* RIGHT */}
             <HeroRightContainer>
               <motion.div {...headContentAnimation}>
                 <Tilt>
@@ -185,6 +312,7 @@ const Hero = () => {
                 </Tilt>
               </motion.div>
             </HeroRightContainer>
+
           </HeroInnerContainer>
         </motion.div>
       </HeroContainer>
