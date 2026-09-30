@@ -255,19 +255,19 @@ const Introduction = () => {
 
           <StatsGrid>
             <StatCard>
-              <StatNumber>2+</StatNumber>
+              <StatNumber>4+</StatNumber>
               <StatLabel>Years Experience</StatLabel>
             </StatCard>
             <StatCard>
-              <StatNumber>15+</StatNumber>
+              <StatNumber>25+</StatNumber>
               <StatLabel>Projects Completed</StatLabel>
             </StatCard>
             <StatCard>
-              <StatNumber>10+</StatNumber>
+              <StatNumber>20+</StatNumber>
               <StatLabel>Happy Clients</StatLabel>
             </StatCard>
             <StatCard>
-              <StatNumber>5+</StatNumber>
+              <StatNumber>7+</StatNumber>
               <StatLabel>Technologies</StatLabel>
             </StatCard>
           </StatsGrid>
